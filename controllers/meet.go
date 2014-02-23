@@ -19,3 +19,8 @@ func (this *MeetController) Get() {
 	this.Data["json"] = event
 	this.ServeJson()
 }
+
+func (this *MeetController) List() {
+	this.Data["json"] = models.FindAllEvents()
+	this.ServeJson()
+}

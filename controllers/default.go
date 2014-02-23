@@ -23,6 +23,7 @@ func (this *MainController) Get() {
 			"/create": Description{Type: "POST", Description: `Takes JSON for input (e.g. "{ "User" : "+100000000", "Name": "TestEvent" }") and returns the created event ID.`},
 			"/user":   Description{Type: "POST", Description: `Takes JSON for input (e.g. "{ "User": "+100000000" }") and returns user statistics.`},
 			"/:id":    Description{Type: "GET", Description: `Get a specific event. ':id' is the event ID.`},
+			"/list":   Description{Type: "GET", Description: `Get the list of all events. Returned as an array of events.`},
 		},
 	}
 

@@ -15,6 +15,9 @@ func init() {
 	// user controller
 	beego.Router("/user", &controllers.UserController{})
 
+	// list controller
+	beego.Router("/list", &controllers.MeetController{}, "get:List")
+
 	// get controller
 	beego.Router("/:id", &controllers.MeetController{})
 

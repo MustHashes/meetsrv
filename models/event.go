@@ -107,6 +107,31 @@ func FindEvent(id string) *Event {
 	return &result
 }
 
+func FindAllEvents() []string {
+	session, err := mgo.Dial(MONGO_URL)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	session.SetMode(mgo.Strong, true)
+
+	c := session.DB(MONGO_DB).C(MONGO_EVENT)
+
+	var results []*Event
+	err = c.Find(nil).Select(bson.M{"Name": 0, "Leader": 0, "Attendees": 0}).All(&results)
+	if err != nil && err != mgo.ErrNotFound {
+		panic(err)
+	}
+
+	ids := make([]string, 0)
+	for _, v := range results {
+		ids = append(ids, v.Id.Hex())
+	}
+
+	return ids
+}
+
 func CreateEvent(name, leader string) *Event {
 	session, err := mgo.Dial(MONGO_URL)
 	if err != nil {
