@@ -15,21 +15,25 @@ func init() {
 	// user controller
 	beego.Router("/user", &controllers.UserController{})
 
+	// user name controller
+	beego.Router("/user/name", &controllers.UserController{}, "post:Name")
+
 	// list controller
 	beego.Router("/list", &controllers.MeetController{}, "get:List")
 
-	// get controller
-	beego.Router("/:id", &controllers.MeetController{})
+	// user socket controller
+	beego.Router("/:id/socket", &controllers.MeetController{}, "get:Socket")
 
-	// join controller
-	// beego.Router("/:id/join", &controllers.MeetController{}, "post:Join")
-
-	// // memberlist controller
-	// beego.Router("/:id/members", &controllers.MeetController{}, "get:Members")
+	// join (marking self here) controller
+	beego.Router("/:id/join", &controllers.MeetController{}, "post:Join")
 
 	// // trending "newsfeed" controller
 	// beego.Router("/:id/trending", &controllers.MeetController{}, "get:Trending")
 
 	// // config controller
 	// beego.Router("/:id/config", &controllers.MeetController{}, "get:GetConfig;post:PostConfig")
+
+	// get controller
+	beego.Router("/:id", &controllers.MeetController{})
+
 }

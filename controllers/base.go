@@ -12,4 +12,5 @@ func (this *BaseController) Prepare() {
 	this.Ctx.ResponseWriter.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 	this.Ctx.ResponseWriter.Header().Set("Pragma", "no-cache")
 	this.Ctx.ResponseWriter.Header().Set("Expires", "0")
+	this.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
 }

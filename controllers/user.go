@@ -15,8 +15,7 @@ type UserRequestJSON struct {
 }
 
 type UserResponseJSON struct {
-	User     string
-	Name     string
+	User     *models.User
 	Leader   []string
 	Attendee []string
 }
@@ -31,12 +30,30 @@ func (this *UserController) Post() {
 	response := UserResponseJSON{}
 
 	user := models.FindUser(req.User)
-	response.User = user.Number
-	response.Name = "tobeimplemented"
+	response.User = user
 
 	response.Leader = models.FindEventsByLeader(req.User)
 	response.Attendee = models.FindEventsByAttendee(req.User)
 
 	this.Data["json"] = &response
 	this.ServeJson()
+}
+
+type NameRequestJSON struct {
+	User string // phone number in format +[countrycode][number]
+	Name string
+}
+
+func (this *UserController) Name() {
+	var req NameRequestJSON
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		this.Abort("400")
+	}
+
+	user := models.FindUser(req.User)
+	user.Name = req.Name
+	user.Update()
+
+	this.Ctx.WriteString("OK")
 }
