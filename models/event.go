@@ -107,7 +107,12 @@ func FindEvent(id string) *Event {
 	return &result
 }
 
-func FindAllEvents() []string {
+type AllEventsReturn struct {
+	Id   string
+	Name string
+}
+
+func FindAllEvents() []AllEventsReturn {
 	session, err := mgo.Dial(MONGO_URL)
 	if err != nil {
 		panic(err)
@@ -119,14 +124,14 @@ func FindAllEvents() []string {
 	c := session.DB(MONGO_DB).C(MONGO_EVENT)
 
 	var results []*Event
-	err = c.Find(nil).Select(bson.M{"Name": 0, "Leader": 0, "Attendees": 0}).All(&results)
+	err = c.Find(nil).Select(bson.M{"Leader": 0, "Attendees": 0}).All(&results)
 	if err != nil && err != mgo.ErrNotFound {
 		panic(err)
 	}
 
-	ids := make([]string, 0)
+	ids := make([]AllEventsReturn, 0)
 	for _, v := range results {
-		ids = append(ids, v.Id.Hex())
+		ids = append(ids, AllEventsReturn{v.Id.Hex(), v.Name})
 	}
 
 	return ids
