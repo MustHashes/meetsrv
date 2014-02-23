@@ -1,12 +1,9 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-	"labix.org/v2/mgo/bson"
-)
+import "labix.org/v2/mgo/bson"
 
 type MainController struct {
-	beego.Controller
+	BaseController
 }
 
 type Description struct {

@@ -1,12 +1,9 @@
 package controllers
 
-import (
-	"github.com/MustHashes/meetsrv/models"
-	"github.com/astaxie/beego"
-)
+import "github.com/MustHashes/meetsrv/models"
 
 type MeetController struct {
-	beego.Controller
+	BaseController
 }
 
 func (this *MeetController) Get() {

@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 
 	"github.com/MustHashes/meetsrv/models"
-	"github.com/astaxie/beego"
 )
 
 type UserController struct {
-	beego.Controller
+	BaseController
 }
 
 type UserRequestJSON struct {

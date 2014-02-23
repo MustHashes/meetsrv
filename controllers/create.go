@@ -3,13 +3,11 @@ package controllers
 import (
 	"encoding/json"
 
-	"github.com/astaxie/beego"
-
 	"github.com/MustHashes/meetsrv/models"
 )
 
 type CreateController struct {
-	beego.Controller
+	BaseController
 }
 
 type CreateJSON struct {
