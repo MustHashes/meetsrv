@@ -11,10 +11,10 @@ const (
 
 type Event struct {
 	Id   bson.ObjectId `bson:"_id,omitempty"`
-	Name string
+	Name string        `bson:"Name"`
 
-	Leader    string   // telephone#
-	Attendees []string // telephone#s
+	Leader    string   `bson:"Leader"`    // telephone#
+	Attendees []string `bson:"Attendees"` // telephone#s
 }
 
 func (this *Event) Update() {
@@ -24,7 +24,7 @@ func (this *Event) Update() {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_EVENT)
 
@@ -42,7 +42,7 @@ func FindEventsByAttendee(number string) []string {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_EVENT)
 
@@ -67,7 +67,7 @@ func FindEventsByLeader(number string) []string {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_EVENT)
 
@@ -92,12 +92,12 @@ func FindEvent(id string) *Event {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_EVENT)
 
 	result := Event{}
-	err = c.Find(bson.M{"_id": id}).One(&result)
+	err = c.FindId(bson.ObjectIdHex(id)).One(&result)
 	if err == mgo.ErrNotFound {
 		return nil
 	} else if err != nil {
@@ -114,12 +114,12 @@ func CreateEvent(name, leader string) *Event {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_EVENT)
 
 	result := &Event{Id: bson.NewObjectId(), Name: name, Leader: leader}
-	err = c.Insert(bson.M{"_id": result.Id, "Name": name, "Leader": leader})
+	err = c.Insert(result)
 	if err != nil {
 		panic(err)
 	}

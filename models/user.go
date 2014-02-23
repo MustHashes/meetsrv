@@ -10,8 +10,8 @@ const (
 )
 
 type User struct {
-	Number string // +[countrycode][number]
-	Events []uint64
+	Number string   `bson:"Number"` // +[countrycode][number]
+	Events []uint64 `bson:"Events"`
 }
 
 func (this *User) Update() {
@@ -21,7 +21,7 @@ func (this *User) Update() {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_USER)
 
@@ -41,7 +41,7 @@ func FindUser(number string) *User {
 	}
 	defer session.Close()
 
-	session.SetMode(mgo.Monotonic, true)
+	session.SetMode(mgo.Strong, true)
 
 	c := session.DB(MONGO_DB).C(MONGO_USER)
 

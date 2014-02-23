@@ -16,7 +16,7 @@ func init() {
 	beego.Router("/user", &controllers.UserController{})
 
 	// get controller
-	// beego.Router("/:id", &controllers.MeetController{})
+	beego.Router("/:id", &controllers.MeetController{})
 
 	// join controller
 	// beego.Router("/:id/join", &controllers.MeetController{}, "post:Join")
