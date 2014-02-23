@@ -22,7 +22,8 @@ func (this *MainController) Get() {
 			"/user/name":  Description{Type: "POST", Description: `Modify the user name. Takes JSON for input (parameters "User" and "Name") and returns "OK" if good.`},
 			"/list":       Description{Type: "GET", Description: `Get the list of all events. Returned as an array of events.`},
 			"/:id":        Description{Type: "GET", Description: `Get a specific event. ':id' is the event ID.`},
-			"/:id/join":   Description{Type: "POST", Description: `Mark a user at the event. Takes JSON for input (parameters "User") and returns "OK" if ok`},
+			"/:id/join":   Description{Type: "POST", Description: `Join the event/Say you're here. Takes JSON for input (parameters "User") and returns "OK" if ok`},
+			"/:id/seen":   Description{Type: "POST", Description: `Say you've met a user at the event (earn karma!). Takes JSON for input (parameters "User") and returns "OK" if ok`},
 			"/:id/socket": Description{Type: "GET", Description: `Connect to the JSON websocket, which monitors users' scores in the event.`},
 		},
 	}

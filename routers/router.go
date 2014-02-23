@@ -27,6 +27,9 @@ func init() {
 	// join (marking self here) controller
 	beego.Router("/:id/join", &controllers.MeetController{}, "post:Join")
 
+	// vote someone as here controller
+	beego.Router("/:id/seen", &controllers.MeetController{}, "post:Seen")
+
 	// // trending "newsfeed" controller
 	// beego.Router("/:id/trending", &controllers.MeetController{}, "get:Trending")
 

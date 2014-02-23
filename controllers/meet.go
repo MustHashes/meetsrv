@@ -66,6 +66,44 @@ func (this *MeetController) Join() {
 	this.Ctx.WriteString("OK")
 }
 
+type MeetSeenRequest struct {
+	User string // phone number in format +[countrycode][number]
+}
+
+func (this *MeetController) Seen() {
+	id := this.Ctx.Input.Param(":id")
+	event := models.FindEvent(id)
+	if event == nil {
+		this.Abort("404")
+	}
+
+	var req MeetSeenRequest
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		this.Abort("400")
+	}
+
+	user := models.FindUser(req.User)
+
+	if user.Number != event.Leader {
+		got := false
+		for _, v := range event.Attendees {
+			if v == user.Number {
+				got = true
+				break
+			}
+		}
+		if !got {
+			this.Abort("403") // don't want people who aren't in the event joining!
+		}
+	}
+
+	user.Score++
+	user.Update()
+
+	this.Ctx.WriteString("OK")
+}
+
 func (this *MeetController) Socket() {
 	id := this.Ctx.Input.Param(":id")
 	event := models.FindEvent(id)
